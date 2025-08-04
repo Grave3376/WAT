@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>WAT ISSB Test</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f2f2f2;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    #word-number {
+      font-size: 1.5rem;
+      color: #555;
+      margin-bottom: 10px;
+    }
+
+    #word-display {
+      font-size: 6rem;
+      font-weight: bold;
+      color: #ff0000;
+      background: #fff;
+      padding: 30px 50px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      min-width: 300px;
+      margin-bottom: 30px;
+    }
+
+    .controls, .start-button {
+      display: flex;
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .controls {
+      display: none;
+    }
+
+    button {
+      padding: 12px 24px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    #startBtn {
+      background-color: #007bff;
+      color: white;
+    }
+
+    #startBtn:hover {
+      background-color: #0069d9;
+    }
+
+    #pauseBtn {
+      background-color: #ffc107;
+      color: black;
+    }
+
+    #pauseBtn:hover {
+      background-color: #e0a800;
+    }
+
+    #resumeBtn {
+      background-color: #17a2b8;
+      color: white;
+    }
+
+    #resumeBtn:hover {
+      background-color: #138496;
+    }
+
+    #resetBtn {
+      background-color: #dc3545;
+      color: white;
+    }
+
+    #resetBtn:hover {
+      background-color: #c82333;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="word-number">Word #1</div>
+  <div id="word-display">Click Start to Begin</div>
+
+  <div class="controls" id="controlButtons">
+    <button onclick="pauseWAT()" id="pauseBtn">Pause</button>
+    <button onclick="resumeWAT()" id="resumeBtn" disabled>Resume</button>
+    <button onclick="resetWAT()" id="resetBtn">Reset</button>
+  </div>
+
+  <div class="start-button" id="startButton">
+    <button onclick="startWAT()" id="startBtn">Start</button>
+  </div>
+
+  <audio id="tickSound">
+    <source src="timer.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <script>
+    const words = [
+      "Hopeful", "Gun", "Sharpness", "Run", "Smile", "Escape", "Healthy", "Kind", "Struggle", "Lie",
+      "Discipline", "Sacrifice", "Cry", "Worry", "Organize", "Fix", "Dead", "Pain", "Challenge", "Fast",
+      "Confident", "Nightmare", "Support", "Anger", "Answer", "Calm", "Blood", "Duty", "Smart", "Resolve",
+      "Shame", "Repeat", "Fear", "Spirit", "Volunteer", "Brother", "Sad", "Revenge", "Manage", "Wound",
+      "Present", "Push", "Save", "Help", "Target", "Humble", "Win", "Question", "Tactics", "Neat",
+      "Respectful", "Suffer", "Attack", "Jump", "Truth", "Meet", "Vision", "Depressed", "Wake", "Power",
+      "Think", "Command", "Time", "Obey", "Regret", "Logic", "Panic", "Blame", "Dedication", "Grow",
+      "Listen", "Alcohol", "Plan", "Study", "Leadership", "Lead", "Ethics", "Jealousy", "Ready", "Cheat",
+      "Alert", "Build", "React", "Book", "Fearful", "Calm", "Direction", "Sharp", "Success", "Positive",
+      "Uniform", "Anguish", "Doubt", "Fright", "Execute", "Inspire", "Win", "Coward", "War", "Abandon",
+      "Watch", "Hate", "Effort", "Decide", "Enemy", "Trauma", "Hardwork", "Control", "Motivate", "Responsibility",
+      "Pride", "Leader", "Morals", "Victory", "Train", "Disciplined", "Polite", "Wake", "Organized", "Fear",
+      "Question", "Peace", "Resolve", "Guilt", "Death", "Conquer", "Blame", "Friendship", "Write", "Ready",
+      "Attack", "Help", "Protect", "Abuse", "Loyalty", "Check", "Mission", "Wound", "Challenge", "Grow",
+      "Execute", "Jump", "Honesty", "Honor", "Friend", "Terror", "Compete", "Patriot", "Succeed", "Maintain",
+      "Leadership", "Silence", "Lonely", "Dark", "Face", "Nation", "Grateful", "Speed", "Game", "Smile",
+      "Respect", "Build", "Decide", "Alert", "Work", "Defend", "Stand", "Cheat", "Patience", "Blood",
+      "Team", "Follow", "Resolve", "Strength", "War", "Panic", "Fix", "Obey", "Success", "Balance",
+      "Blame", "Dead", "Hope", "Lift", "Trust", "Develop", "Target", "Think", "Plan", "Victory"
+    ];
+
+    let currentIndex = 0;
+let intervalId = null;
+
+const tick = document.getElementById("tickSound");
+
+function updateWord() {
+  if (currentIndex >= words.length) {
+    clearInterval(intervalId);
+    intervalId = null;
+    document.getElementById("word-display").innerText = "✅ Test Completed";
+    document.getElementById("word-number").innerText = "";
+    document.getElementById("controlButtons").style.display = "none";
+    return;
+  }
+
+  document.getElementById("word-number").innerText = `Word #${currentIndex + 1}`;
+  document.getElementById("word-display").innerText = words[currentIndex];
+
+  tick.currentTime = 0;
+  tick.play();
+
+  currentIndex++;
+}
+
+function startWAT() {
+  document.getElementById("startButton").style.display = "none";
+  document.getElementById("controlButtons").style.display = "flex";
+  updateWord();
+  intervalId = setInterval(updateWord, 11000);
+
+  document.getElementById("pauseBtn").disabled = false;
+  document.getElementById("resumeBtn").disabled = true;
+  document.getElementById("resetBtn").disabled = false;
+}
+
+function pauseWAT() {
+  clearInterval(intervalId);
+  intervalId = null;
+
+  // Pause buzzer sound
+  tick.pause();
+  tick.currentTime = 0;
+
+  document.getElementById("pauseBtn").disabled = true;
+  document.getElementById("resumeBtn").disabled = false;
+}
+
+function resumeWAT() {
+  if (intervalId) return;
+  intervalId = setInterval(updateWord, 11000);
+  document.getElementById("pauseBtn").disabled = false;
+  document.getElementById("resumeBtn").disabled = true;
+}
+
+function resetWAT() {
+  clearInterval(intervalId);
+  intervalId = null;
+  currentIndex = 0;
+
+  // Stop and reset tick sound
+  tick.pause();
+  tick.currentTime = 0;
+
+  document.getElementById("word-display").innerText = "Click Start to Begin";
+  document.getElementById("word-number").innerText = "Word #1";
+  document.getElementById("startButton").style.display = "flex";
+  document.getElementById("controlButtons").style.display = "none";
+}
+  </script>
+</body>
+</html>
