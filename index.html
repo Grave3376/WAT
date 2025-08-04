@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ISSB WAT Timer</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div id="word-number">Word #1</div>
+  <div id="word-display">Click Start to Begin</div>
+
+  <div class="controls" id="controlButtons">
+    <button onclick="pauseWAT()" id="pauseBtn">Pause</button>
+    <button onclick="resumeWAT()" id="resumeBtn" disabled>Resume</button>
+    <button onclick="resetWAT()" id="resetBtn">Reset</button>
+  </div>
+
+  <div class="start-button" id="startButton">
+    <button onclick="startWAT()" id="startBtn">Start</button>
+  </div>
+
+  <audio id="tickSound">
+    <source src="timer.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <script src="script.js"></script>
+</body>
+</html>
