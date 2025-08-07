@@ -3,28 +3,40 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>ISSB WAT Timer</title>
+  <title>WAT Test</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <div class="container">
+    <h2>WAT Test</h2>
 
-  <div id="word-number">Word #1</div>
-  <div id="word-display">Click Start to Begin</div>
+    <div id="set-selection">
+      <label for="set">Select WAT Set:</label>
+      <select id="set">
+        <option value="0">WAT Set 1</option>
+        <option value="1">WAT Set 2</option>
+        <option value="2">WAT Set 3</option>
+        <option value="3">WAT Set 4</option>
+        <option value="4">WAT Set 5</option>
+        <option value="5">WAT Set 6</option>
+        <option value="6">WAT Set 7</option>
+        <option value="7">WAT Set 8</option>
+      </select>
+      <button onclick="startTest()">Start</button>
+    </div>
 
-  <div class="controls" id="controlButtons">
-    <button onclick="pauseWAT()" id="pauseBtn">Pause</button>
-    <button onclick="resumeWAT()" id="resumeBtn" disabled>Resume</button>
-    <button onclick="resetWAT()" id="resetBtn">Reset</button>
+    <div id="word-number"></div>
+    <div id="word-display"></div>
+
+    <div id="controls">
+      <button onclick="pauseTest()">Pause</button>
+      <button onclick="resumeTest()">Resume</button>
+      <button onclick="restartTest()">Restart</button>
+      <button onclick="resetTest()">Reset</button>
+    </div>
   </div>
 
-  <div class="start-button" id="startButton">
-    <button onclick="startWAT()" id="startBtn">Start</button>
-  </div>
-
-  <audio id="tickSound">
-    <source src="timer.mp3" type="audio/mpeg">
-    Your browser does not support the audio element.
-  </audio>
+ <audio id="buzzer" src="timer.mp3"></audio>
 
   <script src="script.js"></script>
 </body>

@@ -1,6 +1,6 @@
-
-    const words = [
-      "Hopeful", "Gun", "Sharpness", "Run", "Smile", "Escape", "Healthy", "Kind", "Struggle", "Lie",
+const allWords = [
+  // Paste your full list of 200 words here...
+  "Hopeful", "Gun", "Sharpness", "Run", "Smile", "Escape", "Healthy", "Kind", "Struggle", "Lie",
       "Discipline", "Sacrifice", "Cry", "Worry", "Organize", "Fix", "Dead", "Pain", "Challenge", "Fast",
       "Confident", "Nightmare", "Support", "Anger", "Answer", "Calm", "Blood", "Duty", "Smart", "Resolve",
       "Shame", "Repeat", "Fear", "Spirit", "Volunteer", "Brother", "Sad", "Revenge", "Manage", "Wound",
@@ -19,74 +19,88 @@
       "Respect", "Build", "Decide", "Alert", "Work", "Defend", "Stand", "Cheat", "Patience", "Blood",
       "Team", "Follow", "Resolve", "Strength", "War", "Panic", "Fix", "Obey", "Success", "Balance",
       "Blame", "Dead", "Hope", "Lift", "Trust", "Develop", "Target", "Think", "Plan", "Victory"
-    ];
+];
 
-    let currentIndex = 0;
-let intervalId = null;
+const wordSets = [];
+for (let i = 0; i < allWords.length; i += 25) {
+  wordSets.push(allWords.slice(i, i + 25));
+}
 
-const tick = document.getElementById("tickSound");
+let currentSet = [];
+let index = 0;
+let intervalId;
+let isPaused = false;
+const buzzer = document.getElementById("buzzer");
 
-function updateWord() {
-  if (currentIndex >= words.length) {
+function startTest() {
+  const setIndex = document.getElementById("set").value;
+  currentSet = wordSets[setIndex];
+
+  document.getElementById("set-selection").style.display = "none";
+  document.getElementById("controls").style.display = "block";
+
+  index = 0;
+  showWord();
+  intervalId = setInterval(showWord, 11000);
+}
+
+function showWord() {
+  if (index >= currentSet.length) {
     clearInterval(intervalId);
-    intervalId = null;
-    document.getElementById("word-display").innerText = "✅ Test Completed";
-    document.getElementById("word-number").innerText = "";
-    document.getElementById("controlButtons").style.display = "none";
     return;
   }
-
-  document.getElementById("word-number").innerText = `Word #${currentIndex + 1}`;
-  document.getElementById("word-display").innerText = words[currentIndex];
-
-  tick.currentTime = 0;
-  tick.play();
-
-  currentIndex++;
+  buzzer.currentTime = 0;
+  buzzer.play();
+  document.getElementById("word-number").innerText = `Word ${index + 1}`;
+  document.getElementById("word-display").innerText = currentSet[index];
+  index++;
 }
 
-function startWAT() {
-  document.getElementById("startButton").style.display = "none";
-  document.getElementById("controlButtons").style.display = "flex";
-  updateWord();
-  intervalId = setInterval(updateWord, 11000);
-
-  document.getElementById("pauseBtn").disabled = false;
-  document.getElementById("resumeBtn").disabled = true;
-  document.getElementById("resetBtn").disabled = false;
+function pauseTest() {
+  if (!isPaused) {
+    clearInterval(intervalId);
+    buzzer.pause();
+    isPaused = true;
+  }
 }
 
-function pauseWAT() {
+function resumeTest() {
+  if (isPaused) {
+    // Resume buzzer
+    const buzzer = document.getElementById("buzzer");
+    if (buzzer) {
+      buzzer.currentTime = 0; // restart from beginning
+      buzzer.play();
+    }
+
+    // Resume word display
+    intervalId = setInterval(showWord, 11000);
+    isPaused = false;
+  }
+}
+function restartTest() {
   clearInterval(intervalId);
-  intervalId = null;
-
-  // Pause buzzer sound
-  tick.pause();
-  tick.currentTime = 0;
-
-  document.getElementById("pauseBtn").disabled = true;
-  document.getElementById("resumeBtn").disabled = false;
+  index = 0;
+  showWord();
+  intervalId = setInterval(showWord, 11000);
 }
 
-function resumeWAT() {
-  if (intervalId) return;
-  intervalId = setInterval(updateWord, 11000);
-  document.getElementById("pauseBtn").disabled = false;
-  document.getElementById("resumeBtn").disabled = true;
-}
-
-function resetWAT() {
+function resetTest() {
   clearInterval(intervalId);
-  intervalId = null;
-  currentIndex = 0;
 
-  // Stop and reset tick sound
-  tick.pause();
-  tick.currentTime = 0;
+  // Stop and reset the buzzer safely
+  const buzzer = document.getElementById("buzzer");
+  if (buzzer) {
+    buzzer.pause();
+    buzzer.currentTime = 0;
+  }
 
-  document.getElementById("word-display").innerText = "Click Start to Begin";
-  document.getElementById("word-number").innerText = "Word #1";
-  document.getElementById("startButton").style.display = "flex";
-  document.getElementById("controlButtons").style.display = "none";
+  index = 0;
+  isPaused = false;
+
+  // Reset UI
+  document.getElementById("set-selection").style.display = "block";
+  document.getElementById("controls").style.display = "none";
+  document.getElementById("word-number").innerText = "";
+  document.getElementById("word-display").innerText = "";
 }
-  

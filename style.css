@@ -1,95 +1,42 @@
+body {
+  font-family: Arial, sans-serif;
+  background: #f3f3f3;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+.container {
+  text-align: center;
+  padding: 30px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
 
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f2f2f2;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-    }
+#word-display {
+  font-size: 36px;
+  font-weight: bold;
+  margin: 20px 0;
+  color: #333;
+}
 
-    #word-number {
-      font-size: 1.5rem;
-      color: #555;
-      margin-bottom: 10px;
-    }
+#word-number {
+  font-size: 20px;
+  color: #666;
+  margin-bottom: 10px;
+}
 
-    #word-display {
-      font-size: 6rem;
-      font-weight: bold;
-      color: #ff0000;
-      background: #fff;
-      padding: 30px 50px;
-      border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      min-width: 300px;
-      margin-bottom: 30px;
-    }
+#controls {
+  margin-top: 20px;
+  display: none;
+}
 
-    .controls, .start-button {
-      display: flex;
-      gap: 15px;
-      margin-top: 20px;
-    }
-
-    .controls {
-      display: none;
-    }
-
-    button {
-      padding: 12px 24px;
-      font-size: 1rem;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-
-    button:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-
-    #startBtn {
-      background-color: #007bff;
-      color: white;
-    }
-
-    #startBtn:hover {
-      background-color: #0069d9;
-    }
-
-    #pauseBtn {
-      background-color: #ffc107;
-      color: black;
-    }
-
-    #pauseBtn:hover {
-      background-color: #e0a800;
-    }
-
-    #resumeBtn {
-      background-color: #17a2b8;
-      color: white;
-    }
-
-    #resumeBtn:hover {
-      background-color: #138496;
-    }
-
-    #resetBtn {
-      background-color: #dc3545;
-      color: white;
-    }
-
-    #resetBtn:hover {
-      background-color: #c82333;
-    }
+#controls button {
+  margin: 0 5px;
+  padding: 10px 20px;
+  font-size: 14px;
+  cursor: pointer;
+}
