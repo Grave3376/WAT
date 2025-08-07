@@ -1,42 +1,86 @@
+/* Global styles */
 body {
+  margin: 0;
   font-family: Arial, sans-serif;
-  background: #f3f3f3;
+  background: linear-gradient(to right, #001f3f, #001931); /* glossy dark blue */
+  color: #fff;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  margin: 0;
 }
 
 .container {
   text-align: center;
   padding: 30px;
-  background: white;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  border-radius: 15px;
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
 }
 
 #word-display {
-  font-size: 36px;
+  margin-top: 30px;
+  font-size: 48px;
   font-weight: bold;
-  margin: 20px 0;
-  color: #333;
+  background: linear-gradient(145deg, #ffffff, #e6e6e6b6);
+  color: #000;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
 }
 
 #word-number {
   font-size: 20px;
-  color: #666;
   margin-bottom: 10px;
+  color: #f0f0f0;
 }
 
 #controls {
-  margin-top: 20px;
+  margin-top: 30px;
   display: none;
 }
 
-#controls button {
-  margin: 0 5px;
-  padding: 10px 20px;
-  font-size: 14px;
+/* Button styles */
+button {
+  font-size: 16px;
+  padding: 12px 24px;
+  margin: 8px;
+  border: none;
+  border-radius: 10px;
   cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  transform: scale(1.05);
+}
+
+/* Specific button colors */
+button[onclick="pauseTest()"] {
+  background-color: #ff4d4d; /* red */
+  color: white;
+}
+
+button[onclick="resumeTest()"] {
+  background-color: #28a745; /* green */
+  color: white;
+}
+
+button[onclick="resetTest()"] {
+  background-color: #007bff; /* blue */
+  color: white;
+}
+
+/* Dropdown and label styling */
+label, select {
+  font-size: 16px;
+  margin-bottom: 10px;
+  color: white;
+}
+
+select {
+  padding: 8px 12px;
+  border-radius: 5px;
+  border: none;
+  margin-right: 10px;
 }
