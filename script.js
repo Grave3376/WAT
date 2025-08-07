@@ -33,6 +33,8 @@ let isPaused = false;
 const buzzer = document.getElementById("buzzer");
 
 function startTest() {
+   document.getElementById('set-selection').style.display = 'none'; // Hide set selection
+  document.getElementById('word-display').style.display = 'block'; // Show word display
   const setIndex = document.getElementById("set").value;
   currentSet = wordSets[setIndex];
 
@@ -55,6 +57,8 @@ function showWord() {
   document.getElementById("word-display").innerText = currentSet[index];
   index++;
 }
+
+
 
 function pauseTest() {
   if (!isPaused) {
@@ -79,28 +83,27 @@ function resumeTest() {
   }
 }
 function restartTest() {
+
   clearInterval(intervalId);
   index = 0;
   showWord();
   intervalId = setInterval(showWord, 11000);
+    
 }
 
 function resetTest() {
   clearInterval(intervalId);
-
-  // Stop and reset the buzzer safely
-  const buzzer = document.getElementById("buzzer");
-  if (buzzer) {
-    buzzer.pause();
-    buzzer.currentTime = 0;
-  }
-
+  buzzer.pause();
+  buzzer.currentTime = 0;
   index = 0;
   isPaused = false;
 
-  // Reset UI
   document.getElementById("set-selection").style.display = "block";
   document.getElementById("controls").style.display = "none";
   document.getElementById("word-number").innerText = "";
-  document.getElementById("word-display").innerText = "";
+
+  const wordDisplay = document.getElementById("word-display");
+  wordDisplay.innerText = "";
+  wordDisplay.style.display = "none"; // 🔥 HIDE the word display div
 }
+
